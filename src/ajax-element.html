@@ -61,8 +61,7 @@
 	};
 
 	// Ajax post method
-	element.post = function () {
-		var options = this.ajaxArgs;
+	element.post = function (options) {
 		if (typeof options === 'undefined') {
 			return false;
 		}
@@ -80,8 +79,7 @@
 	};
 
 	// Ajax request method
-	element.request = function () {
-		var options = this.ajaxArgs;
+	element.request = function (options) {
 		var host = this;
 		if (typeof options === 'undefined') {
 			return false;
@@ -109,9 +107,9 @@
 					} else {
 						data = this.responseText;
 					}
-					element.trigger('ajaxElementSuccess', {request: host.ajaxArgs, data: data});
+					element.trigger('ajaxElementSuccess', {request: options, data: data});
 				} else {
-					element.trigger('ajaxElementError', {request: host.ajaxArgs, data: data});
+					element.trigger('ajaxElementError', {request: options, data: data});
 				}
 			}
 		};

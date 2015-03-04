@@ -1,6 +1,6 @@
 # &lt;ajax-element&gt;
 
-> ajax web component
+> VanillaJS Ajax Web Component
 
 ## Demo
 

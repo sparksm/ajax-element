@@ -13,16 +13,27 @@
 <body>
 
 		<script>
-			window.addEventListener('ajaxElementSuccess', function (data) {
-				console.log(data);
+			window.addEventListener('ajaxElementSuccess', function (event) {
+				console.log(event);
+				var request = event.detail.request;
+				var data = event.detail.data;
+				if (request.url === 'http://time.jsontest.com/') {
+					document.getElementById('time').textContent = data.time;
+				}
+			});
+
+			window.addEventListener('ajaxElementError', function (event) {
+				console.error(event);
 			});
 		</script>
+
 		<!-- Using Custom Elements -->
 		<ajax-element url="test.txt"></ajax-element>
 
-		<ajax-element url="test.json" datatype="json"></ajax-element>
+		<ajax-element url="http://time.jsontest.com/" datatype="json"></ajax-element>
+		<div>The time is <span id="time"></span></div>
 		
-<!-- <ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another"></ajax-element> -->
+		<ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another"></ajax-element>
 
 
 </body>
