@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="UTF-8">
+		<title>&lt;ajax-element&gt;</title>
+
+		<!-- Importing Web Component's Polyfill -->
+		<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+		<!-- Importing Custom Elements -->
+		<link rel="import" href="src/ajax-element.html">
+</head>
+<body>
+
+		<script>
+			window.addEventListener('ajaxElementSuccess', function (data) {
+				console.log(data);
+			});
+		</script>
+		<!-- Using Custom Elements -->
+		<ajax-element type="GET" url="test.txt"></ajax-element>
+		
+<!-- <ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another"></ajax-element> -->
+
+
+</body>
+</html>
