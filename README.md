@@ -42,6 +42,7 @@ Or [download as ZIP](https://github.com/sparksm/ajax-element/archive/master.zip)
 				document.getElementById('anotherID').textContent = event.detail.data;
 			});			
 		</script>
+		```
 
 3. Start using it!
 
