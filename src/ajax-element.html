@@ -7,21 +7,13 @@
 
 	// Fires when an instance of the element is created
 	element.createdCallback = function () {
-		// importer
-		var thatDoc = document;
+		this.host = this;
 
-		// importee
-		var thisDoc =	(thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
-
-		// shadow root
-		var shadowRoot = this.createShadowRoot();
-
-		// shadow host
 		this.getAttributes();
 		if (this.ajaxArgs.type !== 'POST') {
 			this.request(this.ajaxArgs);
 		} else {
-			this.post(this.ajaxArgs);
+			this.post(this, this.ajaxArgs);
 		}
 	};
 
@@ -42,17 +34,13 @@
 		var l = attrs.length;
 		var args = [];
 		for (i = 0; i < l; i += 1) {
-			if (attrs[i].nodeName !== 'success' && attrs[i].nodeName !== 'error') {
-				args[attrs[i].nodeName] = attrs[i].value;
-			} else {
-				args[attrs[i].nodeName] = window[attrs[i].value];
-			}
+			args[attrs[i].nodeName] = attrs[i].value;
 		}
 		this.ajaxArgs = args;
 	};
 
-	// Custom event to be triggered on window after ajax request
-	element.trigger = function (name, detail) {
+	// Custom event to be triggered after ajax request
+	element.trigger = function (host, name, detail) {
 		if (window.CustomEvent) {
 			var event = new CustomEvent(name, {
 				detail: detail
@@ -61,12 +49,11 @@
 			var event = document.createEvent('CustomEvent');
 			event.initCustomEvent(name, true, true, detial);
 		}
-		window.dispatchEvent(event);
+		host.dispatchEvent(event);
 	};
 
 	// Ajax post method
-	element.post = function () {
-		var options = this.ajaxArgs;
+	element.post = function (host, options) {
 		if (typeof options === 'undefined') {
 			return false;
 		}
@@ -79,18 +66,17 @@
 			options.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 		}
 		if (!error) {
-			element.request(options);
+			element.request(options, host);
 		}
 	};
 
 	// Ajax request method
-	element.request = function () {
-		var options = this.ajaxArgs;
-		var host = this;
+	element.request = function (options, host) {
+		var host = host || this;
 		if (typeof options === 'undefined') {
 			return false;
 		}
-		if (!options.url || !options.type) {
+		if (!options.url) {
 			return false;
 		}
 		options.type = options.type || 'GET';
@@ -110,21 +96,12 @@
 				if (this.status >= 200 && this.status < 400) {
 					if (options.datatype === 'json') {
 						data = JSON.parse(this.responseText);
-						if (options.error) {
-							options.error(data);
-						}
 					} else {
 						data = this.responseText;
-						if (options.success) {
-							options.success(data);
-						}
 					}
-					element.trigger('ajaxElementSuccess', {request: host.ajaxArgs, data: data});
+					element.trigger(host, 'ajaxElementSuccess', {request: options, data: data});
 				} else {
-					if (options.error) {
-						options.error(this.status);
-					}
-					element.trigger('ajaxElementError', {request: host.ajaxArgs, data: data});
+					element.trigger(host, 'ajaxElementError', {request: options, data: data});
 				}
 			}
 		};
