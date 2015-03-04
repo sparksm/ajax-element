@@ -47,7 +47,7 @@ Or [download as ZIP](https://github.com/sparksm/ajax-element/archive/master.zip)
 3. Start using it!
 
     ```html
-    <ajax-element src="http://www.example.com"></ajax-element>
+    <ajax-element url="http://www.example.com"></ajax-element>
     ```
 
 ## Options
