@@ -1,0 +1,129 @@
+
+<script>
+(function () {
+	'use strict';
+
+	// Creates an object based in the HTML Element prototype
+	var element = Object.create(HTMLElement.prototype);
+
+	// Fires when an instance of the element is created
+	element.createdCallback = function () {
+		var host = this;
+
+		// Refers to the "importer"
+		var thatDoc = document;
+
+		// Refers to the "importee"
+		var thisDoc =	(thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
+
+		// Creates the shadow root
+		var shadowRoot = host.createShadowRoot();
+
+		//shadow host
+		host.getAttributes();
+		host.request(host.ajaxArgs);
+		//console.log(host.ajaxArgs);
+	};
+
+	// Fires when an instance was inserted into the document
+	element.attachedCallback = function () {};
+
+	// Fires when an instance was removed from the document
+	element.detachedCallback = function () {};
+
+	// Fires when an attribute was added, removed, or updated
+	element.attributeChangedCallback = function (attr, oldVal, newVal) {};
+
+	element.getAttributes = function () {
+		var i;
+		var attrs = this.attributes;
+		var l = attrs.length;
+		var args = [];
+		for (i = 0; i < l; i += 1) {
+			if (attrs[i].nodeName !== 'success' && attrs[i].nodeName !== 'error') {
+				args[attrs[i].nodeName] = attrs[i].value;
+			} else {
+				args[attrs[i].nodeName] = window[attrs[i].value];
+			}
+		}
+		this.ajaxArgs = args;
+	};
+
+	//getJSON
+	element.getJSON = function (url) {
+
+	};
+
+	//post
+	element.post = function (options) {
+		if (typeof options === 'undefined') {
+			return false;
+		}
+		var error = false;
+		if (!options.data) {
+			error = true;
+		}
+		options.headers = options.headers || {};
+		if (!options.headers['Content-Type']) {
+			options.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+		}
+		if (!error) {
+			element.request(options);
+		}
+	};
+
+	//request
+	element.request = function (options) {
+		if (typeof options === 'undefined') {
+			return false;
+		}
+		if (!options.url || !options.type) {
+			return false;
+		}
+		options.type = options.type || 'GET';
+
+		var request = new XMLHttpRequest();
+		var data, i, header;
+		request.open(options.type, options.url, true);
+		if (options.headers) {
+			for (header in options.headers) {
+				if (options.headers.hasOwnProperty(header)) {
+					request.setRequestHeader(header, options.headers(header));
+				}
+			}
+		}
+		request.onreadystatechange = function() {
+			if (this.readyState === 4) {
+				if (this.status >= 200 && this.status < 400) {
+					if (options.dataType === 'json') {
+						data = JSON.parse(this.responseText);
+						if (options.error) {
+							options.error(data);
+						}
+					} else {
+						data = this.responseText;
+						if (options.success) {
+							options.success(data);
+						}
+					}
+				} else {
+					if (options.error) {
+						options.error(this.status);
+					}
+				}
+			}
+		};
+		if (!options.data) {
+			request.send();
+		} else {
+			request.send(data);
+		}
+		request = null;
+	}
+
+	document.registerElement('ajax-element', {
+		prototype: element
+	});
+
+} () );
+</script>
