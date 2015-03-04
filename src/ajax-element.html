@@ -1,4 +1,3 @@
-
 <script>
 (function () {
 	'use strict';
@@ -8,35 +7,35 @@
 
 	// Fires when an instance of the element is created
 	element.createdCallback = function () {
-		var host = this;
-
-		// Refers to the "importer"
+		// importer
 		var thatDoc = document;
 
-		// Refers to the "importee"
+		// importee
 		var thisDoc =	(thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
 
-		// Creates the shadow root
+		// shadow root
 		var shadowRoot = host.createShadowRoot();
 
-		//shadow host
-		host.getAttributes();
-		if (host.ajaxArgs.type !== 'POST') {
-			host.request(host.ajaxArgs);
+		// shadow host
+		this.getAttributes();
+		if (this.ajaxArgs.type !== 'POST') {
+			this.request(this.ajaxArgs);
 		} else {
-			host.post(host.ajaxArgs);
+			this.post(this.ajaxArgs);
 		}
 	};
 
-	// Fires when an instance was inserted into the document
-	element.attachedCallback = function () {};
-
-	// Fires when an instance was removed from the document
-	element.detachedCallback = function () {};
-
 	// Fires when an attribute was added, removed, or updated
-	element.attributeChangedCallback = function (attr, oldVal, newVal) {};
+	element.attributeChangedCallback = function (attr, oldVal, newVal) {
+		this.getAttributes();
+		if (this.ajaxArgs.type !== 'POST') {
+			this.request(this.ajaxArgs);
+		} else {
+			this.post(this.ajaxArgs);
+		}
+	};
 
+	// Gets all attributes as an array
 	element.getAttributes = function () {
 		var i;
 		var attrs = this.attributes;
@@ -52,7 +51,7 @@
 		this.ajaxArgs = args;
 	};
 
-	//custom event
+	// Custom event to be triggered on window after ajax request
 	element.trigger = function (name, detail) {
 		if (window.CustomEvent) {
 			var event = new CustomEvent(name, {
@@ -65,7 +64,7 @@
 		window.dispatchEvent(event);
 	};
 
-	//post
+	// Ajax post method
 	element.post = function () {
 		var options = this.ajaxArgs;
 		if (typeof options === 'undefined') {
@@ -84,7 +83,7 @@
 		}
 	};
 
-	//request
+	// Ajax request method
 	element.request = function () {
 		var options = this.ajaxArgs;
 		var host = this;
@@ -141,5 +140,5 @@
 		prototype: element
 	});
 
-} () );
+}());
 </script>
