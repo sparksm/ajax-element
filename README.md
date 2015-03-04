@@ -60,6 +60,10 @@ Attribute     | Options     | Default      | Description
 `data`        | *string*    | ``           | Set to serialized data to send with POST requests.
 
 
+##TODO
+1. Promises
+2. State Indicators
+
 ## Contributing
 
 1. Fork it!
