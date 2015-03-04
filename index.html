@@ -13,28 +13,29 @@
 <body>
 
 		<!-- Using Custom Elements -->
-		<ajax-element url="http://ip.jsontest.com/?mime=5" id="ajaxtext"></ajax-element>
+		<ajax-element url="demo/test.txt" id="ajaxtext"></ajax-element>
+		<pre id="ajaxdata"></pre>
 
-		<ajax-element url="http://time.jsontest.com/" datatype="json" id="ajaxtime"></ajax-element>
-		<pre>The time is <span id="time"></span></pre>
+		<ajax-element url="demo/test.json" datatype="json" id="ajaxjson"></ajax-element>
+		<pre id="jsondata"></pre>
 		
 		<ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another" id="ajaxpost"></ajax-element>
 		<pre id="postdata"></pre>
 
 		<script>
-			document.getElementById('ajaxtime').addEventListener('ajaxElementSuccess', function (event) {
+			document.getElementById('ajaxtext').addEventListener('ajaxElementSuccess', function (event) {
 				var data = event.detail.data;
-				document.getElementById('time').textContent = data.time;
+				document.getElementById('ajaxdata').textContent = data;
+			});
+			
+			document.getElementById('ajaxjson').addEventListener('ajaxElementSuccess', function (event) {
+				var data = event.detail.data;
+				document.getElementById('jsondata').textContent = data.time;
 			});
 
 			document.getElementById('ajaxpost').addEventListener('ajaxElementSuccess', function (event) {
 				var data = event.detail.data;
 				document.getElementById('postdata').textContent = data;
-			});
-
-			document.getElementById('ajaxtext').addEventListener('ajaxElementSuccess', function (event) {
-				var data = event.detail.data;
-				document.getElementById('time').textContent = data.time;
 			});
 		</script>
 
