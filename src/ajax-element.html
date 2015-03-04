@@ -42,11 +42,7 @@
 		var l = attrs.length;
 		var args = [];
 		for (i = 0; i < l; i += 1) {
-			if (attrs[i].nodeName !== 'success' && attrs[i].nodeName !== 'error') {
-				args[attrs[i].nodeName] = attrs[i].value;
-			} else {
-				args[attrs[i].nodeName] = window[attrs[i].value];
-			}
+			args[attrs[i].nodeName] = attrs[i].value;
 		}
 		this.ajaxArgs = args;
 	};
@@ -90,7 +86,7 @@
 		if (typeof options === 'undefined') {
 			return false;
 		}
-		if (!options.url || !options.type) {
+		if (!options.url) {
 			return false;
 		}
 		options.type = options.type || 'GET';
@@ -110,20 +106,11 @@
 				if (this.status >= 200 && this.status < 400) {
 					if (options.datatype === 'json') {
 						data = JSON.parse(this.responseText);
-						if (options.error) {
-							options.error(data);
-						}
 					} else {
 						data = this.responseText;
-						if (options.success) {
-							options.success(data);
-						}
 					}
 					element.trigger('ajaxElementSuccess', {request: host.ajaxArgs, data: data});
 				} else {
-					if (options.error) {
-						options.error(this.status);
-					}
 					element.trigger('ajaxElementError', {request: host.ajaxArgs, data: data});
 				}
 			}

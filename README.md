@@ -33,14 +33,17 @@ Or [download as ZIP](https://github.com/sparksm/ajax-element/archive/master.zip)
 3. Start using it!
 
     ```html
-    <ajax-element></ajax-element>
+    <ajax-element src="http://www.example.com"></ajax-element>
     ```
 
 ## Options
 
 Attribute     | Options     | Default      | Description
 ---           | ---         | ---          | ---
-`foo`         | *string*    | `bar`        | Lorem ipsum dolor.
+`url`         | *string*    | ``           | The Request URL.
+`type`        | *string*    | `GET`        | The Request Method.
+`datatype`    | *string*    | ``           | Set to `json` to parse response as JSON.
+`data`        | *string*    | ``           | Set to serialized data to send with POST requests.
 
 ## Methods
 
