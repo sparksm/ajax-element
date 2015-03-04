@@ -22,20 +22,33 @@
 		<ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another" id="ajaxpost"></ajax-element>
 		<pre id="postdata"></pre>
 
+		<ajax-element id="ajaxapi"></ajax-element>
+		<button id="apicta">go</button>
+		<pre id="apidata"></pre>
+
 		<script>
+			// get
 			document.getElementById('ajaxtext').addEventListener('ajaxElementSuccess', function (event) {
-				var data = event.detail.data;
-				document.getElementById('ajaxdata').textContent = data;
-			});
-			
-			document.getElementById('ajaxjson').addEventListener('ajaxElementSuccess', function (event) {
-				var data = event.detail.data;
-				document.getElementById('jsondata').textContent = data;
+				document.getElementById('ajaxdata').textContent = event.detail.data;
 			});
 
+			// get with json response
+			document.getElementById('ajaxjson').addEventListener('ajaxElementSuccess', function (event) {
+				document.getElementById('jsondata').textContent = event.detail.data;
+			});
+
+			// post
 			document.getElementById('ajaxpost').addEventListener('ajaxElementSuccess', function (event) {
-				var data = event.detail.data;
-				document.getElementById('postdata').textContent = data;
+				document.getElementById('postdata').textContent = event.detail.data;
+			});
+
+			document.getElementById('ajaxapi').addEventListener('ajaxElementSuccess', function (event) {
+				document.getElementById('apidata').textContent = event.detail.data;
+			});
+			document.getElementById('apicta').addEventListener('click', function () {
+				document.getElementById('ajaxapi').get({
+					url: 'demo/test.txt'
+				});
 			});
 		</script>
 

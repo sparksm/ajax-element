@@ -71,7 +71,7 @@
 	};
 
 	// Ajax request method
-	element.request = function (options, host) {
+	element.request = element.get = function (options, host) {
 		var host = host || this;
 		if (typeof options === 'undefined') {
 			return false;
