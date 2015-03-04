@@ -21,8 +21,11 @@
 
 		//shadow host
 		host.getAttributes();
-		host.request(host.ajaxArgs);
-		//console.log(host.ajaxArgs);
+		if (host.ajaxArgs.type !== 'POST') {
+			host.request(host.ajaxArgs);
+		} else {
+			host.post(host.ajaxArgs);
+		}
 	};
 
 	// Fires when an instance was inserted into the document
@@ -49,9 +52,17 @@
 		this.ajaxArgs = args;
 	};
 
-	//getJSON
-	element.getJSON = function (url) {
-
+	//custom event
+	element.trigger = function (name, detail) {
+		if (window.CustomEvent) {
+			var event = new CustomEvent(name, {
+				detail: detail
+			});
+		} else {
+			var event = document.createEvent('CustomEvent');
+			event.initCustomEvent(name, true, true, detial);
+		}
+		window.dispatchEvent(event);
 	};
 
 	//post
@@ -88,14 +99,14 @@
 		if (options.headers) {
 			for (header in options.headers) {
 				if (options.headers.hasOwnProperty(header)) {
-					request.setRequestHeader(header, options.headers(header));
+					request.setRequestHeader(header, options.headers[header]);
 				}
 			}
 		}
 		request.onreadystatechange = function() {
 			if (this.readyState === 4) {
 				if (this.status >= 200 && this.status < 400) {
-					if (options.dataType === 'json') {
+					if (options.datatype === 'json') {
 						data = JSON.parse(this.responseText);
 						if (options.error) {
 							options.error(data);
@@ -106,17 +117,19 @@
 							options.success(data);
 						}
 					}
+					element.trigger('ajaxElementSuccess', data);
 				} else {
 					if (options.error) {
 						options.error(this.status);
 					}
+					element.trigger('ajaxElementError', data);
 				}
 			}
 		};
 		if (!options.data) {
 			request.send();
 		} else {
-			request.send(data);
+			request.send(options.data);
 		}
 		request = null;
 	}

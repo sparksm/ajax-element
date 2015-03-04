@@ -13,12 +13,12 @@
 <body>
 
 		<script>
-			window.ajaxSuccess = function (data) {
+			window.addEventListener('ajaxElementSuccess', function (data) {
 				console.log(data);
-			}
+			});
 		</script>
 		<!-- Using Custom Elements -->
-		<ajax-element type="GET" url="test.txt" success="ajaxSuccess"></ajax-element>
+		<ajax-element type="POST" url="http://posttestserver.com/post.php" data="parameter=value&also=another"></ajax-element>
 
 </body>
 </html>
