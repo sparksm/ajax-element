@@ -1,7 +1,7 @@
 {
     "name": "ajax-element",
-    "version": "0.1.0",
-    "description": "ajax web component",
+    "version": "0.1.1",
+    "description": "VanillaJS Ajax Web Component",
     "license": "MIT",
     "main": "src/ajax-element.html",
     "keywords": [

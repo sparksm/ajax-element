@@ -30,6 +30,19 @@ Or [download as ZIP](https://github.com/sparksm/ajax-element/archive/master.zip)
     <link rel="import" href="bower_components/ajax-element/src/ajax-element.html">
     ```
 
+3. Listen for Events:
+
+		```html
+		<script>
+			window.addEventListener('ajaxElementSuccess', function (data) {
+				console.log(data);
+			});
+			
+			window.addEventListener('ajaxElementError', function (data) {
+				console.log(data);
+			});
+		</script>
+
 3. Start using it!
 
     ```html
@@ -45,11 +58,6 @@ Attribute     | Options     | Default      | Description
 `datatype`    | *string*    | ``           | Set to `json` to parse response as JSON.
 `data`        | *string*    | ``           | Set to serialized data to send with POST requests.
 
-## Events
-
-Event         | Description
----           | ---
-`onsomething` | Triggers when something happens.
 
 ## Contributing
 
