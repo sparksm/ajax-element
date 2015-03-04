@@ -66,7 +66,8 @@
 	};
 
 	//post
-	element.post = function (options) {
+	element.post = function () {
+		var options = this.ajaxArgs;
 		if (typeof options === 'undefined') {
 			return false;
 		}
@@ -84,7 +85,9 @@
 	};
 
 	//request
-	element.request = function (options) {
+	element.request = function () {
+		var options = this.ajaxArgs;
+		var host = this;
 		if (typeof options === 'undefined') {
 			return false;
 		}
@@ -117,12 +120,12 @@
 							options.success(data);
 						}
 					}
-					element.trigger('ajaxElementSuccess', data);
+					element.trigger('ajaxElementSuccess', {request: host.ajaxArgs, data: data});
 				} else {
 					if (options.error) {
 						options.error(this.status);
 					}
-					element.trigger('ajaxElementError', data);
+					element.trigger('ajaxElementError', {request: host.ajaxArgs, data: data});
 				}
 			}
 		};
