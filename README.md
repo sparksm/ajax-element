@@ -32,17 +32,17 @@ Or [download as ZIP](https://github.com/sparksm/ajax-element/archive/master.zip)
 
 3. Listen for Events:
 
-		```html
-		<script>
-			document.getElementById('myID').addEventListener('ajaxElementSuccess', function (event) {
-				document.getElementById('anotherID').textContent = event.detail.data;
-			});			
-			
-			document.getElementById('myID').addEventListener('ajaxElementError', function (event) {
-				document.getElementById('anotherID').textContent = event.detail.data;
-			});			
-		</script>
-		```
+    ```html
+    <script>
+      document.getElementById('myID').addEventListener('ajaxElementSuccess', function (event) {
+        document.getElementById('anotherID').textContent = event.detail.data;
+      });
+
+      document.getElementById('myID').addEventListener('ajaxElementError', function (event) {
+        document.getElementById('anotherID').textContent = event.detail.data;
+      });
+    </script>
+    ```
 
 3. Start using it!
 
