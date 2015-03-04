@@ -30,7 +30,7 @@
 			
 			document.getElementById('ajaxjson').addEventListener('ajaxElementSuccess', function (event) {
 				var data = event.detail.data;
-				document.getElementById('jsondata').textContent = data.time;
+				document.getElementById('jsondata').textContent = data;
 			});
 
 			document.getElementById('ajaxpost').addEventListener('ajaxElementSuccess', function (event) {
