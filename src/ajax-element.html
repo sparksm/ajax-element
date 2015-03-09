@@ -23,7 +23,7 @@
 		if (this.ajaxArgs.type !== 'POST') {
 			this.request(this.ajaxArgs);
 		} else {
-			this.post(this.ajaxArgs);
+			this.post(this.host, this.ajaxArgs);
 		}
 	};
 
